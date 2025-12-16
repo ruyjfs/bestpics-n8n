@@ -19,7 +19,7 @@ services:
     ports:
       - "5432:5432"
   n8n:
-    image: n8nio/n8n:1.123.5
+    image: n8nio/n8n:2.1.0
     container_name: ${APP_NAME}-n8n
     restart: always
     depends_on:
