@@ -55,21 +55,25 @@ services:
     image: redis:7-alpine
     container_name: ${APP_NAME}-redis
     restart: always
+    entrypoint: ["redis-server"]
     command:
-      - redis-server
-      - --requirepass
-      - ${REDIS_PASSWORD}
       - --appendonly
       - "yes"
       - --save
       - "60"
       - "1"
+      - --user
+      - default
+      - "on"
+      - ">${REDIS_PASSWORD}"
+      - "~*"
+      - "+@all"
     volumes:
       - redis_data:/data
     networks:
       - n8n_net
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
       interval: 10s
       timeout: 5s
       retries: 5
