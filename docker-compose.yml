@@ -16,7 +16,7 @@ services:
       timeout: 5s
       retries: 5
   n8n:
-    image: n8nio/n8n:latest
+    image: n8nio/n8n:1.52.0
     container_name: ${APP_NAME}-n8n
     restart: always
     depends_on:
