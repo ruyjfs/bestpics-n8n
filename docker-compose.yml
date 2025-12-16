@@ -19,7 +19,6 @@ services:
     ports:
       - "5432:5432"
   n8n:
-    # build: .
     image: n8nio/n8n:1.123.5
     container_name: ${APP_NAME}-n8n
     restart: always
@@ -28,38 +27,43 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-    ports:
-      - "5678:5678"
     environment:
+      # Database
       - DB_TYPE=postgresdb
       - DB_POSTGRESDB_HOST=db
       - DB_POSTGRESDB_PORT=5432
       - DB_POSTGRESDB_USER=${POSTGRES_USER}
       - DB_POSTGRESDB_PASSWORD=${POSTGRES_PASSWORD}
       - DB_POSTGRESDB_DATABASE=${POSTGRES_DB}
+
+      # Base URLs
       - N8N_HOST=${N8N_HOST}
       - N8N_PORT=5678
       - N8N_PROTOCOL=${N8N_PROTOCOL}
       - WEBHOOK_URL=${WEBHOOK_URL}
+
+      # Timezone
       - GENERIC_TIMEZONE=${GENERIC_TIMEZONE}
+
+      # Security
       - N8N_ENCRYPTION_KEY=${N8N_ENCRYPTION_KEY}
       - N8N_BASIC_AUTH_ACTIVE=${N8N_BASIC_AUTH_ACTIVE}
       - N8N_BASIC_AUTH_USER=${N8N_BASIC_AUTH_USER}
       - N8N_BASIC_AUTH_PASSWORD=${N8N_BASIC_AUTH_PASSWORD}
-      - N8N_SECURE_COOKIE=${N8N_SECURE_COOKIE}
-      - REDIS_HOST=${REDIS_HOST}
-      - REDIS_PORT=${REDIS_PORT}
-      - N8N_RUNNERS_ENABLED=${N8N_RUNNERS_ENABLED}
-      - N8N_BLOCK_ENV_ACCESS_IN_NODE=${N8N_BLOCK_ENV_ACCESS_IN_NODE}
-      - N8N_GIT_NODE_DISABLE_BARE_REPOS=${N8N_GIT_NODE_DISABLE_BARE_REPOS}
-      # - NODE_FUNCTION_ALLOW_EXTERNAL=firebase-admin
+      - N8N_SECURE_COOKIE=false
+
+      # Redis
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+
+      # 🔥 Proxy (OBRIGATÓRIO no Dokploy)
       - N8N_TRUST_PROXY=true
-      - N8N_RATE_LIMIT_ENABLED=true
-      - N8N_RATE_LIMIT_MAX=1000
-      - N8N_RATE_LIMIT_WINDOW=1
+
+      # 🔥 Task Runners
       - N8N_RUNNERS_ENABLED=true
       - N8N_RUNNERS_MODE=own
-      - N8N_RATE_LIMIT_ENABLED=false
+
     volumes:
       - n8n_data:/home/node/.n8n
       - ./n8n-task-runners.json:/home/node/.n8n/n8n-task-runners.json
