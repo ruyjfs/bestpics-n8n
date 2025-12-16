@@ -19,7 +19,8 @@ services:
     ports:
       - "5432:5432"
   n8n:
-    image: n8nio/n8n:1.123.5
+    build: .
+    image: bestpics-n8n:firebase
     container_name: ${APP_NAME}-n8n
     restart: always
     depends_on:
@@ -48,6 +49,10 @@ services:
       - N8N_SECURE_COOKIE=${N8N_SECURE_COOKIE}
       - REDIS_HOST=${REDIS_HOST}
       - REDIS_PORT=${REDIS_PORT}
+      - N8N_RUNNERS_ENABLED=${N8N_RUNNERS_ENABLED}
+      - N8N_BLOCK_ENV_ACCESS_IN_NODE=${N8N_BLOCK_ENV_ACCESS_IN_NODE}
+      - N8N_GIT_NODE_DISABLE_BARE_REPOS=${N8N_GIT_NODE_DISABLE_BARE_REPOS}
+
     volumes:
       - n8n_data:/home/node/.n8n
     networks:
