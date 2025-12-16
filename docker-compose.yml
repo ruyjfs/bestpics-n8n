@@ -59,6 +59,7 @@ services:
       - N8N_RATE_LIMIT_WINDOW=1
       - N8N_RUNNERS_ENABLED=true
       - N8N_RUNNERS_MODE=own
+      - N8N_RATE_LIMIT_ENABLED=false
     volumes:
       - n8n_data:/home/node/.n8n
       - ./n8n-task-runners.json:/home/node/.n8n/n8n-task-runners.json
