@@ -1,6 +1,8 @@
 # n8n com Docker
 
-Arquivos para subir rapidamente uma instância do n8n usando Docker Compose com Postgres para persistência.
+Arquivos para subir rapidamente uma instância do n8n usando Docker Compose com Postgres.
+
+Para atualizar o n8n, basta trocar a versão da imagem no docker-compose.
 
 ## Pré-requisitos
 - Docker e Docker Compose instalados
@@ -23,4 +25,3 @@ Arquivos para subir rapidamente uma instância do n8n usando Docker Compose com 
 - Volumes nomeados `n8n_data` e `db_data` garantem persistência de dados.
 - Logs: `docker compose logs -f n8n` e `docker compose logs -f db`.
 - Parar/remover: `docker compose down` (use `-v` para remover volumes, cuidado com dados).
-
