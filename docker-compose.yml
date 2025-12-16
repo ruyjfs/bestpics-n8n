@@ -17,6 +17,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    ports:
+      - "5432:5432"
   n8n:
     image: n8nio/n8n:1.123.5
     container_name: ${APP_NAME}-n8n
