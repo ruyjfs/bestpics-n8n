@@ -10,6 +10,8 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
     volumes:
       - db_data:/var/lib/postgresql/data
+    networks:
+      - n8n_net
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 10s
@@ -43,7 +45,13 @@ services:
       - N8N_SECURE_COOKIE=${N8N_SECURE_COOKIE}
     volumes:
       - n8n_data:/home/node/.n8n
+    networks:
+      - n8n_net
 
 volumes:
   db_data:
   n8n_data:
+
+networks:
+  n8n_net:
+    driver: bridge
