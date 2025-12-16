@@ -57,17 +57,13 @@ services:
     restart: always
     entrypoint: ["redis-server"]
     command:
+      - --requirepass
+      - ${REDIS_PASSWORD}
       - --appendonly
       - "yes"
       - --save
       - "60"
       - "1"
-      - --user
-      - default
-      - "on"
-      - ">${REDIS_PASSWORD}"
-      - "~*"
-      - "+@all"
     volumes:
       - redis_data:/data
     networks:
