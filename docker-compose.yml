@@ -21,6 +21,11 @@ services:
     image: n8nio/n8n:1.123.5
     container_name: ${APP_NAME}-n8n
     restart: always
+    command: >
+      redis-server
+      --requirepass ${REDIS_PASSWORD}
+      --appendonly yes
+      --save 60 1
     depends_on:
       db:
         condition: service_healthy
@@ -64,7 +69,7 @@ services:
     networks:
       - n8n_net
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
       interval: 10s
       timeout: 5s
       retries: 5
